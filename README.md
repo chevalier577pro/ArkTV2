@@ -1,2 +1,2 @@
-# ArkTV2
-ArkTV segunda geração
+# R36S-TV
+IPTV for the R36S
