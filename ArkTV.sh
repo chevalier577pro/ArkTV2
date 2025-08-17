@@ -31,7 +31,21 @@ ExitMenu() {
     exit 0
 }
 
+# Simple internet connectivity check function
+check_internet() {
+    if ! curl -s --connect-timeout 5 --max-time 5 "http://1.1.1.1" >/dev/null 2>&1; then
+        dialog --msgbox "No internet connection detected.\nPlease check your network and try again." 6 50 > "$CURR_TTY"
+        return 1
+    fi
+    return 0
+}
+
 check_and_install_dependencies() {
+    # Check internet FIRST, before trying to install anything
+    if ! check_internet; then
+        ExitMenu
+    fi
+
     local missing=()
     for cmd in mpv dialog jq curl; do
         if ! command -v "$cmd" &>/dev/null; then
