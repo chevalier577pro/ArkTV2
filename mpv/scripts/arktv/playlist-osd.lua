@@ -21,7 +21,7 @@ end
 
 local function update_playlist()
     playlist = mp.get_property_native('playlist') or {}
-    current_index = mp.get_property_number('playlist-pos', 0) or 0
+    current_index = mp.get_property_number('playlist-pos', 0)
     if selected_index >= #playlist then
         selected_index = math.max(#playlist - 1, 0)
     end
@@ -58,14 +58,14 @@ local function render()
         local prefix = '   '
 
         if i == current_index and i == selected_index then
-            prefix = '\\c&H00FF00&➤ '
+            prefix = '{\\c&H00FF00&}➤ '
         elseif i == current_index then
-            prefix = '\\c&H00FF00&• '
+            prefix = '{\\c&H00FF00&}• '
         elseif i == selected_index then
-            prefix = '\\c&HFFCC00&→ '
+            prefix = '{\\c&HFFCC00&}→ '
         end
 
-        ass:append(string.format('%s{\\c}&HFFFFFF&%s\\N', prefix, title))
+        ass:append(string.format('%s{\\c&HFFFFFF&}%s\\N', prefix, title))
     end
 
     overlay.data = ass.text

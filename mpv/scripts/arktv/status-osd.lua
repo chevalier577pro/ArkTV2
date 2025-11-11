@@ -75,9 +75,13 @@ end
 local function reload_playlist()
     local playlist_filename = mp.get_property('playlist-filename')
     if playlist_filename and playlist_filename ~= '' then
-        mp.commandv('loadlist', playlist_filename, 'replace')
-        mp.osd_message('Playlist recarregada', 2)
-        show_overlay(2)
+        local ok = mp.commandv('loadlist', playlist_filename, 'replace')
+        if ok then
+            mp.osd_message('Playlist recarregada', 2)
+            show_overlay(2)
+        else
+            mp.osd_message('Erro ao recarregar playlist', 2)
+        end
     else
         mp.osd_message('Playlist atual não tem origem conhecida', 2)
     end
